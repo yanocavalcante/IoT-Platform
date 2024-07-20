@@ -5,21 +5,22 @@ URL ='https://iot.lisha.ufsc.br/api/get.php'
 
 unidade = 0x84925924 #tempo (segundos)
 
+
 # busca os ultimos 5 minutos
-# minutos = 5
-tf = time.time() * 1000000
-#t0 = 1718766826 * 1000000
-#t0 = 1718939205212860 # teste
+# minutos = 30
+# t0 = 1704380445 * 1000000   # 4 de Janeiro de 2024
 t0 = 0
+tf = time.time() * 1000000
 query = {
         'series' : {
             'version' : "1.2",
             'unit'    : unidade,
+            'x': 0,
+            'y': 0,
+            'z': 0,
+            'r': 9000000,
             'signature': 1,
             'dev'     : 1,
-            'x'       : 3778431.43, 
-            'y'       : -4235208, 
-            'z'       : -2900074,
             't0'      : t0,
             'tf'      : tf,
         }

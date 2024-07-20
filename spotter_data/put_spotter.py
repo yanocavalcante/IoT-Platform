@@ -51,7 +51,7 @@ for index, row in df.iloc[0:].iterrows():
             "x":x,
             "y":y,
             "z":z,
-            "r":10,
+            "r":9000000,
             "t":new_time_epoch,
             "dev":1,
             "signature":1,
