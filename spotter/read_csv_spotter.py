@@ -1,5 +1,6 @@
 import pandas as pd
-
+# Esse programa serviu apenas para teste de como manipular arquivos .csv, além de permitir a formatação da base de dados
+# definida após os testes com a Spotter da Sofar Ocean. Ele não está ligado diretamente com os outros programas.
 
 df = pd.read_csv("spotter.csv", header=[0])
 

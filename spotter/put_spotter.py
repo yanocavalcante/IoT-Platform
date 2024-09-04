@@ -2,8 +2,6 @@ import time
 import pandas as pd
 import requests
 import json
-import sys
-import os
 import pyproj
 import pandas as pd
 
@@ -54,7 +52,7 @@ for index, row in df.iloc[0:].iterrows():
             "r":9000000,
             "t":new_time_epoch,
             "dev":1,
-            "signature":1,
+            "signature": 1,
             "workflow":0
         }
     ]
