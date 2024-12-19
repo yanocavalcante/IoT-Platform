@@ -11,7 +11,7 @@ import pandas as pd
 # lat=-27.60171566
 
 df = pd.read_csv('new_spotter.csv')
-URL ='https://iot.lisha.ufsc.br/api/put.php'
+URL ='https://iot.ufsc.br/api/put.php'
 CURRENT_TIME = time.time() * 1000000
 
 

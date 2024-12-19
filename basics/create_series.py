@@ -15,7 +15,7 @@ alt = 12
 
 raio = 1000*1000 #1000km
 unidade = 0x84925924 #tempo (segundos)
-URL ='https://iot.lisha.ufsc.br/api/create.php'
+URL ='https://iot.ufsc.br/api/create.php'
 INICIO=1718766826
 FIM=2034310424
 transformer = pyproj.Transformer.from_crs({"proj":'latlong', "ellps":'WGS84', "datum":'WGS84'},{"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'})
