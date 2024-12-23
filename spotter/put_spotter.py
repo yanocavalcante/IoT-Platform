@@ -3,15 +3,9 @@ import pandas as pd
 import requests
 import json
 import pyproj
-import pandas as pd
-
-
-# CURRENT_TIME = int(time.time() * 1000000)
-# lng=-48.52081776
-# lat=-27.60171566
 
 df = pd.read_csv('new_spotter.csv')
-URL ='https://iot.lisha.ufsc.br/api/put.php'
+URL ='https://iot.ufsc.br/api/put.php'
 CURRENT_TIME = time.time() * 1000000
 
 
@@ -65,6 +59,6 @@ for index, row in df.iloc[0:].iterrows():
     response = session.post(URL, json.dumps(query), verify=False)
 
     print("Get [", str(response.status_code), "] (", len(query), ") ", query, sep='')
-    if response.status_code == 200:
-        print(response.content)
+    print(response.content)
+
     break
