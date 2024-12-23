@@ -28,6 +28,7 @@ session.cert = ('../labeco.crt', '../labeco.key')
 requests.urllib3.disable_warnings()
 response = session.post(URL, json=query, verify=False)
 
-print("Get [", str(response.status_code), "] (", len(query), ") ", query, sep='')
+print("GET [", str(response.status_code), "] (", len(query), ") ", query, sep='')
+
 
 print("Conteúdo:", response.text)
