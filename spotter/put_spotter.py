@@ -6,7 +6,6 @@ import pyproj
 
 df = pd.read_csv('new_spotter.csv')
 URL ='https://iot.ufsc.br/api/put.php'
-URL ='https://iot.ufsc.br/api/put.php'
 CURRENT_TIME = time.time() * 1000000
 
 
@@ -31,6 +30,10 @@ for index, row in df.iloc[0:].iterrows():
     x, y, z =  transformer.transform( long_degree, lat_degree, alt )
 
     print(f"X: {x}; Y: {y}, Z: {z}")
+    x = int(x)
+    y = int(y)
+    z = int(z)
+
     print(f"Time in Miliseconds Epoch: {new_time_epoch}")
 
     query = {
@@ -38,16 +41,16 @@ for index, row in df.iloc[0:].iterrows():
         {
             "version": "1.2",
             "unit":unidade,
-            "value":CURRENT_TIME,
+            "value":1,
             "error":0,
             "confidence":1,
             "x":x,
             "y":y,
             "z":z,
-            "r":9000000,
+            "r":0,
             "t":new_time_epoch,
             "dev":1,
-            "signature": 1,
+            "signature": "BL0001",
             "workflow":0
         }
     ]
@@ -61,5 +64,3 @@ for index, row in df.iloc[0:].iterrows():
 
     print("Get [", str(response.status_code), "] (", len(query), ") ", query, sep='')
     print(response.content)
-
-    break

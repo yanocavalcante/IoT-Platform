@@ -15,7 +15,7 @@ query = {
             'y': 0,
             'z': 0,
             'r': 9000000,
-            'signature': 1,
+            'signature': "BL0001",
             'dev': 1,
             't0': t0,
             'tf': tf,
