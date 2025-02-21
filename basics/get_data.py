@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-import time, requests, json
+import time, requests, os
+from dotenv import load_dotenv
 
-URL ='https://iot.ufsc.br/api/get.php'
 
-unidade = 0x84925924 #tempo (segundos)
+load_dotenv()
+
+URL = os.getenv('URL') + "/api/get.php"
+
+unidade = 0x84925924
 
 t0 = 0
 tf = time.time() * 1000000
+
 query = {
         'series' : {
             'version': "1.2",
@@ -28,7 +33,6 @@ session.cert = ('../labeco.crt', '../labeco.key')
 requests.urllib3.disable_warnings()
 response = session.post(URL, json=query, verify=False)
 
-print("GET [", str(response.status_code), "] (", len(query), ") ", query, sep='')
+print("HTTP ", str(response.status_code), " (", len(query), ") ", query, sep='')
 
-
-print("Conteúdo:", response.text)
+print("Response:", response.content)

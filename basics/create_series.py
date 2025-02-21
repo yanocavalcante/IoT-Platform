@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-import requests, json, pyproj
+import requests, json, pyproj, os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+URL = os.getenv('URL') + "/api/create.php"
 
 lng =  -48.52081776
 lat = -27.60171566
@@ -8,7 +14,6 @@ alt = 12
 raio = 1000*1000 #1000km
 unidade = 0x84925924 #tempo (segundos)
 
-URL ='https://iot.ufsc.br/api/create.php'
 INICIO=1718766826
 FIM=2034310424
 
@@ -37,9 +42,6 @@ session.cert = ('../labeco.crt', '../labeco.key')
 
 response = session.post(URL, json.dumps(query))
 
-print("Get [", str(response.status_code), "] (", len(query), ") ", query, sep='')
+print("HTTP ", str(response.status_code), " (", len(query), ") ", query, sep='')
 
-print("Conteúdo:", response.content)
-
-if response.status_code == 200:
-    print(response.content)
+print("Response:", response.content)

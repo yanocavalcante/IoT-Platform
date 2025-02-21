@@ -1,26 +1,25 @@
-import time
 import pandas as pd
-import requests
-import json
-import pyproj
+import requests, json, pyproj, os, time
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+URL = os.getenv('URL') + "/api/put.php"
 
 df = pd.read_csv('new_spotter.csv')
-URL ='https://iot.ufsc.br/api/put.php'
 CURRENT_TIME = time.time() * 1000000
 
 
 for index, row in df.iloc[0:].iterrows():
-    print(f"Reading Line {index}")
+    # print(f"Reading Line {index}")
     time_epoch = row['GPS_Epoch_Time(s)']
     lat_degree = row['lat_degree_decimal']
     long_degree = row['long_degree_decimal']
     
     alt=1
-    unidade = 0x84925924 #tempo (segundos)
-    new_time_epoch = time_epoch * 1000000
-
-    print(f"Lat_degree: {lat_degree}; Long_degree: {long_degree}")
-    
+    unidade = 0x84925924
+    new_time_epoch = time_epoch * 1000000    
 
     transformer = pyproj.Transformer.from_crs(
             {"proj":'latlong', "ellps":'WGS84', "datum":'WGS84'},
@@ -29,12 +28,11 @@ for index, row in df.iloc[0:].iterrows():
 
     x, y, z =  transformer.transform( long_degree, lat_degree, alt )
 
-    print(f"X: {x}; Y: {y}, Z: {z}")
     x = int(x)
     y = int(y)
     z = int(z)
 
-    print(f"Time in Miliseconds Epoch: {new_time_epoch}")
+    # print(f"Time in Miliseconds Epoch: {new_time_epoch}")
 
     query = {
     "smartdata":[
@@ -62,5 +60,6 @@ for index, row in df.iloc[0:].iterrows():
     requests.urllib3.disable_warnings()
     response = session.post(URL, json.dumps(query), verify=False)
 
-    print("Get [", str(response.status_code), "] (", len(query), ") ", query, sep='')
-    print(response.content)
+    print("HTTP ", str(response.status_code), " (", len(query), ") ", query, sep='')
+
+    print("Response:", response.content)
