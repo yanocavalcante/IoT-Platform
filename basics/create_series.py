@@ -3,45 +3,54 @@ import requests, json, pyproj, os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+load_dotenv(dotenv_path="../.env",
+            verbose=True,
+            override=True)
 
 URL = os.getenv('URL') + "/api/create.php"
 
-lng =  -48.52081776
-lat = -27.60171566
-alt = 12
+LNG =  -48.52081776
+LAT = -27.60171566
+ALT = 1
 
-raio = 1000*1000 #1000km
-unidade = 0x84925924 #tempo (segundos)
+RADIUS = 1000*1000
 
-INICIO=1718766826
-FIM=2034310424
+BEGIN=1718766826
+END=2034310424
+
+METERS = 0x84964924
+SECONDS = 0x84925924
+DEGREES =  0xF8000000
+
+UNITS = [METERS, SECONDS, DEGREES]
 
 transformer = pyproj.Transformer.from_crs({"proj":'latlong', "ellps":'WGS84', "datum":'WGS84'},{"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'})
-x, y, z =  transformer.transform( lng, lat, alt)
+x, y, z =  transformer.transform(LNG, LAT, ALT)
 
-query = {
-   "series":
-      {
-         "version": "1.2",
-         "unit": unidade,
-         "x": x,
-         "y": y,
-         "z": z,
-         "r": raio,
-         "t0": INICIO * 1000000,
-         "tf": FIM * 1000000,
-         "dev": 1,
-         "signature": "BL0001",
-      }
-}
 
-session = requests.Session()
-session.headers = {'Content-type' : 'application/json'}
-session.cert = ('../labeco.crt', '../labeco.key')
+for i in range(len(UNITS)):
+   series = {
+      "series":
+         {
+            "version": "1.2",
+            "unit": UNITS[i],
+            "x": int(x),
+            "y": int(y),
+            "z": int(z),
+            "r": RADIUS,
+            "t0": BEGIN * 1000000,
+            "tf": END * 1000000,
+            "dev": i+1,
+            "signature": "BL0001",
+         }
+   }
 
-response = session.post(URL, json.dumps(query))
+   session = requests.Session()
+   session.headers = {'Content-type' : 'application/json'}
+   session.cert = ('../labeco.crt', '../labeco.key')
 
-print("HTTP ", str(response.status_code), " (", len(query), ") ", query, sep='')
+   response = session.post(URL, json.dumps(series))
 
-print("Response:", response.content)
+   print("HTTP ", str(response.status_code), " (", len(series), ") ", series, sep='')
+
+   print("Response:", response.content)
