@@ -7,7 +7,7 @@ load_dotenv(dotenv_path="../.env",
             verbose=True,
             override=True)
 
-URL = os.getenv('URL') + "/api/create.php"
+URL = os.getenv('URL') + "/api/put.php"
 
 METERS = 0x84964924
 SECONDS = 0x84925924
@@ -28,35 +28,26 @@ def insert_data(timestamp, wv_height, pk_period, mn_direction, lat, long):
     x, y, z =  transformer.transform(long, lat, ALT)
 
     data = {
-        "MultiUnitSmartData" : {
-        "version" : "1.2",
-        "x" : int(x),
-        "y" : int(y),
-        "z" : int(z),
-        "t0" : int(timestamp),
-        "signature" : "BL0001",
-        "dev" : 1,
-        "uncertainty" : 0,
-        "datapoints":  [
+        "MultiUnitSmartData": {
+        "version": "1.2",
+        "x": int(x),
+        "y": int(y),
+        "z": int(z),
+        "t0": int(timestamp),
+        "signature": "BL0001",
+        "series": [
             {   
-                "unit" : METERS,
-                "offset" : 0,
-                "value" : wv_height,
-                "dev" : 1,
-                "uncertainty" : 0
-            },
-            {
-                "unit" : SECONDS,
-                "offset" : 0,
-                "value" : pk_period, 
-                "dev" : 2,
-                "uncertainty" : 0
+                "unit": METERS,
+                "value": wv_height,
+                "dev": 1,
             }, {
-                "unit" : METERS,
-                "offset" : 0,
-                "value" : mn_direction,
-                "dev" : 3,
-                "uncertainty" : 0
+                "unit": SECONDS,
+                "value": pk_period,
+                "dev": 2,
+            }, {
+                "unit": DEGREES,
+                "value": mn_direction,
+                "dev": 3,
             }
         ]
     }}
@@ -75,6 +66,7 @@ def insert_data(timestamp, wv_height, pk_period, mn_direction, lat, long):
 
 
 if __name__ == "__main__":
+    
     df = pd.read_csv('acc.csv')
     for index, row in df.iloc[0:].iterrows():
         print(f"Reading Line {index}")
@@ -88,4 +80,3 @@ if __name__ == "__main__":
         insert_data(time_epoch, wv_height, pk_period, mn_direction, lat, long)
 
         time.sleep(2)
-        
