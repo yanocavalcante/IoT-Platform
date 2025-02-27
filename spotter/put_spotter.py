@@ -3,7 +3,9 @@ import requests, json, pyproj, os, time
 from dotenv import load_dotenv
 
 
-load_dotenv()
+load_dotenv(dotenv_path="../.env",
+            verbose=True,
+            override=True)
 
 URL = os.getenv('URL') + "/api/put.php"
 
@@ -63,3 +65,5 @@ for index, row in df.iloc[0:].iterrows():
     print("HTTP ", str(response.status_code), " (", len(query), ") ", query, sep='')
 
     print("Response:", response.content)
+
+    break
