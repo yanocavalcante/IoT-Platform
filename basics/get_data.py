@@ -2,12 +2,16 @@
 import time, requests, os
 from dotenv import load_dotenv
 
-
-load_dotenv()
+load_dotenv(dotenv_path="../.env",
+            verbose=True,
+            override=True)
 
 URL = os.getenv('URL') + "/api/get.php"
 
-unidade = 0x84925924
+
+METERS = 0x84964924
+SECONDS = 0x84925924
+DEGREES =  0xF8000000
 
 t0 = 0
 tf = time.time() * 1000000
@@ -15,15 +19,15 @@ tf = time.time() * 1000000
 query = {
         'series' : {
             'version': "1.2",
-            'unit': unidade,
+            'unit': DEGREES,
             'x': 0,
             'y': 0,
             'z': 0,
             'r': 9000000,
             'signature': "BL0001",
-            'dev': 1,
-            't0': t0,
-            'tf': tf,
+            'dev': 3,
+            't0': int(1700000000000000),
+            'tf': int(tf),
         }
 }
 
