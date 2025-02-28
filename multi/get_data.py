@@ -13,7 +13,7 @@ SECONDS = 0x84925924
 DEGREES =  0xF8000000
 
 UNITS = [METERS, SECONDS, DEGREES]
-MEASUREMENTS = ['Hs', 'Tp', 'MwD']
+MEASUREMENTS = ['hs', 'tp', 'dm']
 
 t0 = 0
 tf = time.time() * 1000000
